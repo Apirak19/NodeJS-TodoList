@@ -12,12 +12,20 @@ mongoose
 
 // Define Person class
 class Person {
-  constructor(personName, personAge, personPosition) {
-    this.personName = personName;
-    this.personAge = personAge;
-    this.personPosition = personPosition;
+  constructor(personName, personFirstname, personLastname) {
+    this.name = personName;
+    this.firstName = personFirstname;
+    this.lastName = personLastname;
   }
 }
+
+const personSchema = new mongoose.Schema({
+  name: { type: String, required: true },
+  first_name: { type: String, required: true },
+  last_name: { type: String, required: true },
+});
+
+const PersonModel = mongoose.model("persons", personSchema);
 
 // Example usage of Person
 const newProgrammer = new Person("Apirak", 27, "BA");
@@ -28,14 +36,30 @@ app.set("view engine", "ejs");
 
 // GET route
 app.get("/", (req, res) => {
-  const newBA = new Person("Wu", 26, "programmer");
+  const newBA = new Person("Wu", "Apirak", "Fakin");
   res.render("app", { newBA });
 });
 
+app.get("/my-todo", (req, res) => {
+  res.render("myTodo");
+});
+
+app.get("/persons", async (req, res) => {
+  try {
+    const persons = await PersonModel.find();
+    const newPersons = persons.map(
+      (person) => new Person(person.name, person.first_name, person.last_name)
+    );
+    console.log("new persons: ", newPersons);
+    res.render("persons", { newPersons });
+  } catch {}
+});
+
 // POST route
-app.post("/createPerson", (req, res) => {
-  console.log("created: ", req.body); // Log the request body
-  res.send("input: " + JSON.stringify(req.body)); // Send back the input
+app.post("/create-person", (req, res) => {
+  const personData = req.body;
+  console.log("created: ", personData); // Log the request body
+  res.send("input: " + JSON.stringify(personData)); // Send back the input
 });
 
 // Start the server

@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>hello view</title>
+    <title>Persons</title>
   </head>
   <body>
     <ul>
@@ -12,14 +12,14 @@
       <li><a href="">Change Mode</a></li>
       <li><a href="/persons">view persons</a></li>
     </ul>
-    <h1>Welcome to the TodoList built by NodeJS and Express</h1>
-    <p>developed by <%= newBA.personName %> (<%= newBA.personAge %>)</p>
-    <form action="/save-todo">
-      <div>
-        <label for="todo-name">What Todo</label>
-        <input id="todo-name" type="text" />
-      </div>
-      <button type="submit">add</button>
-    </form>
+
+    <h1>Persons</h1>
+    <hr />
+
+    <div>
+      <h2><%= newPersons[0].name %></h2>
+      <p>first name: <%= newPersons[0].first_name %></p>
+      <p>last name: <%= newPersons[0].last_name %></p>
+    </div>
   </body>
 </html>
