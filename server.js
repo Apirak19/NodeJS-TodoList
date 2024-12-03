@@ -25,7 +25,13 @@ const personSchema = new mongoose.Schema({
   last_name: { type: String, required: true },
 });
 
+const todoSchema = new mongoose.Schema({
+  name: { type: String, required: true },
+  is_done: { type: Boolean, required: true },
+});
+
 const PersonModel = mongoose.model("persons", personSchema);
+const TodoModel = mongoose.model("todos", todoSchema);
 
 // Example usage of Person
 const newProgrammer = new Person("Apirak", 27, "BA");
@@ -36,8 +42,7 @@ app.set("view engine", "ejs");
 
 // GET route
 app.get("/", (req, res) => {
-  const newBA = new Person("Wu", "Apirak", "Fakin");
-  res.render("app", { newBA });
+  res.render("app");
 });
 
 app.get("/my-todo", (req, res) => {
@@ -56,10 +61,17 @@ app.get("/persons", async (req, res) => {
 });
 
 // POST route
-app.post("/create-person", (req, res) => {
+app.post("/create-person", async (req, res) => {
   const personData = req.body;
-  console.log("created: ", personData); // Log the request body
-  res.send("input: " + JSON.stringify(personData)); // Send back the input
+  console.log(personData);
+
+  const newPerson = await PersonModel.create({
+    name: personData.name,
+    first_name: personData.first_name,
+    last_name: personData.last_name,
+  });
+  console.log("created: ", newPerson); // Log the request body
+  res.send("input: " + JSON.stringify(newPerson)); // Send back the input
 });
 
 // Start the server
