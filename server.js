@@ -1,8 +1,17 @@
 const express = require("express");
 const mongoose = require("mongoose");
+const bodyParser = require("body-parser");
+const authRoutes = require("./routes/auth");
+require("dotenv").config();
 
 const app = express();
-app.use(express.json());
+
+app.use(bodyParser.json());
+
+app.use("/auth", authRoutes);
+
+// Set up EJS as the view engine
+app.set("view engine", "ejs");
 
 // Connect to MongoDB
 mongoose
@@ -34,11 +43,8 @@ const PersonModel = mongoose.model("persons", personSchema);
 const TodoModel = mongoose.model("todos", todoSchema);
 
 // Example usage of Person
-const newProgrammer = new Person("Apirak", 27, "BA");
-console.log(newProgrammer);
-
-// Set up EJS as the view engine
-app.set("view engine", "ejs");
+// const newProgrammer = new Person("Apirak", 27, "BA");
+// console.log(newProgrammer);
 
 // GET route
 app.get("/", (req, res) => {
@@ -79,6 +85,3 @@ const port = 3000;
 app.listen(port, () => {
   console.log(`server running on port ${port}`);
 });
-
-// Log current time
-console.log(`hello world at ${new Date()}`);
