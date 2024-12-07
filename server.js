@@ -19,33 +19,6 @@ mongoose
   .then(() => console.log("success"))
   .catch((err) => console.error(err));
 
-// Define Person class
-class Person {
-  constructor(personName, personFirstname, personLastname) {
-    this.name = personName;
-    this.firstName = personFirstname;
-    this.lastName = personLastname;
-  }
-}
-
-const personSchema = new mongoose.Schema({
-  name: { type: String, required: true },
-  first_name: { type: String, required: true },
-  last_name: { type: String, required: true },
-});
-
-const todoSchema = new mongoose.Schema({
-  name: { type: String, required: true },
-  is_done: { type: Boolean, required: true },
-});
-
-const PersonModel = mongoose.model("persons", personSchema);
-const TodoModel = mongoose.model("todos", todoSchema);
-
-// Example usage of Person
-// const newProgrammer = new Person("Apirak", 27, "BA");
-// console.log(newProgrammer);
-
 // GET route
 app.get("/", (req, res) => {
   res.render("app");
