@@ -1,14 +1,14 @@
 const express = require("express");
 const mongoose = require("mongoose");
-const bodyParser = require("body-parser");
-const authRoutes = require("./routes/auth");
+app.use(express.json());
+const router = require("./routes/auth");
 require("dotenv").config();
 
 const app = express();
 
 app.use(bodyParser.json());
 
-app.use("/auth", authRoutes);
+app.use("/auth", router);
 
 // Set up EJS as the view engine
 app.set("view engine", "ejs");
@@ -28,27 +28,19 @@ app.get("/my-todo", (req, res) => {
   res.render("myTodo");
 });
 
-app.get("/persons", async (req, res) => {
-  try {
-    const persons = await PersonModel.find();
-    const newPersons = persons.map(
-      (person) => new Person(person.name, person.first_name, person.last_name)
-    );
-    console.log("new persons: ", newPersons);
-    res.render("persons", { newPersons });
-  } catch {}
-});
+// app.get("/persons", async (req, res) => {
+//   try {
+//     res.render("persons", { newPersons });
+//   } catch (err) {
+//     console.log(err);
+//   }
+// });
 
 // POST route
 app.post("/create-person", async (req, res) => {
   const personData = req.body;
   console.log(personData);
 
-  const newPerson = await PersonModel.create({
-    name: personData.name,
-    first_name: personData.first_name,
-    last_name: personData.last_name,
-  });
   console.log("created: ", newPerson); // Log the request body
   res.send("input: " + JSON.stringify(newPerson)); // Send back the input
 });
