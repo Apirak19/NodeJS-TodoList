@@ -1,11 +1,12 @@
 const express = require("express");
 const mongoose = require("mongoose");
-app.use(express.json());
 const router = require("./routes/auth");
+const bodyParser = require("body-parser");
 require("dotenv").config();
 
 const app = express();
 
+app.use(express.json());
 app.use(bodyParser.json());
 
 app.use("/auth", router);
@@ -27,14 +28,6 @@ app.get("/", (req, res) => {
 app.get("/my-todo", (req, res) => {
   res.render("myTodo");
 });
-
-// app.get("/persons", async (req, res) => {
-//   try {
-//     res.render("persons", { newPersons });
-//   } catch (err) {
-//     console.log(err);
-//   }
-// });
 
 // POST route
 app.post("/create-person", async (req, res) => {
